@@ -1,4 +1,10 @@
-# Zsh Config by Philipp Witzmann
+Zsh Config by Philipp Witzmann
+
+## Features
+ * Always see your current git branch
+ * Always see your git status (all files added, commited)
+ * See git workflow (merging, rebasing, squashing etc.)
+ * misspelling correction (see https://github.com/nvbn/thefuck)
 
 ## Installation
  * Clone this Repo (git clone git@github.com:PhilippWitzmann/zsh.git)
