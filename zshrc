@@ -56,6 +56,8 @@ plugins=(git bower Composer docker jsontools npm perm redis-cli suse taskwarrior
 
 source $ZSH/oh-my-zsh.sh
 
+eval $(thefuck --alias)
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"

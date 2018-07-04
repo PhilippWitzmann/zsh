@@ -7,8 +7,10 @@ echo 'Installing fonts'
 cp SourceCodePro+Powerline+Awesome+Regular.ttf /Library/Fonts/
 
 echo 'Creating symlink for config file';
-
 ln zshrc ~/.zshrc;
+
+echo 'Installing thefuck'
+brew install thefuck
 
 echo 'Done. Don\'t forget to change terminal font to SourceCodePro+Powerline+Awesome+Regular. Happy bashing!'
 
