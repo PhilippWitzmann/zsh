@@ -104,6 +104,21 @@ composer () {
         composer "$@"
 }
 
+phpunit () {
+    export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
+    tty=
+    tty -s && tty=--tty
+    docker run \
+        $tty \
+        --interactive \
+        --rm \
+        --user $(id -u):$(id -g) \
+        --volume /private/etc/passwd:/etc/passwd:ro \
+        --volume /private/etc/group:/etc/group:ro \
+        --volume $(pwd):/app \
+        phpunit/phpunit "$@"
+}
+
 
 ## POWERLEVEL9K SETTINGS ##
 POWERLEVEL9K_VCS_STAGED_ICON='\u00b1'
