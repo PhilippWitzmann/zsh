@@ -88,7 +88,6 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias dev='ssh -t root@dev.sparhandy.de "cd /var/www/sparhandy.de/sh ; bash"'
 
 composer () {
     tty=
