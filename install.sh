@@ -8,10 +8,12 @@ echo 'Installing fonts'
 cp SourceCodePro+Powerline+Awesome+Regular.ttf /Library/Fonts/
 
 echo 'Creating symlink for config file';
-
 ln zshrc ~/.zshrc;
 
 echo "Adding CLI-Tools"
+
+echo 'Installing thefuck'
+brew install thefuck
 
 echo "https://github.com/sharkdp/bat"
 brew install bat
