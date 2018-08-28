@@ -35,6 +35,13 @@ export EDITOR=vim
 # ssh
 export SSH_KEY_PATH="~/.ssh/rsa_id"
 
+alias cat='bat'
+alias preview="fzf --preview 'bat --color \"always\" {}'"
+alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+
+# add support for ctrl+o to open selected file in VS Code
+export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
+
 composer () {
     tty=
     tty -s && tty=--tty
@@ -103,3 +110,4 @@ POWERLEVEL9K_OS_ICON_FOREGROUND="blue"
 POWERLEVEL9K_DIR_HOME_FOREGROUND="white"
 POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="white"
 POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
