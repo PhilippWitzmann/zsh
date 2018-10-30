@@ -9,7 +9,7 @@ POWERLEVEL9K_MODE='awesome-patched'
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
+# COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -36,55 +36,11 @@ export EDITOR=vim
 export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 alias cat='bat'
-alias preview="fzf --preview 'bat --color \"always\" {}'"
+alias preview="fzf --preview 'cat --color \"always\" {}'"
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 
 # add support for ctrl+o to open selected file in VS Code
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
-
-composer () {
-    tty=
-    tty -s && tty=--tty
-    docker run \
-        $tty \
-        --interactive \
-        --rm \
-        --user $(id -u):$(id -g) \
-        --volume /private/etc/passwd:/etc/passwd:ro \
-        --volume /private/etc/group:/etc/group:ro \
-        --volume $(pwd):/app \
-        composer "$@"
-}
-
-phpunit () {
-     export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
-     tty=
-     tty -s && tty=--tty
-     docker run \
-         $tty \
-         --interactive \
-         --rm \
-         --user $(id -u):$(id -g) \
-         --volume /private/etc/passwd:/etc/passwd:ro \
-         --volume /private/etc/group:/etc/group:ro \
-         --volume $(pwd):/app \
-         phpunit/phpunit "$@"
-}
-
-phpdoc () {
-     export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
-     tty=
-     tty -s && tty=--tty
-     docker run \
-         $tty \
-         --interactive \
-         --rm \
-         --user $(id -u):$(id -g) \
-         --volume /private/etc/passwd:/etc/passwd:ro \
-         --volume /private/etc/group:/etc/group:ro \
-         --volume $(pwd):/app \
-         phpdoc/phpdoc "$@"
-}
 
 ## POWERLEVEL9K SETTINGS ##
 POWERLEVEL9K_VCS_STAGED_ICON='\u00b1'
@@ -111,3 +67,5 @@ POWERLEVEL9K_DIR_HOME_FOREGROUND="white"
 POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="white"
 POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="/usr/local/opt/php@7.0/bin:$PATH"
+export PATH="/usr/local/opt/php@7.0/sbin:$PATH"
