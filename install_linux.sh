@@ -137,7 +137,7 @@ gem_install colorls
 
 pip3_install thefuck
 
-echo 'Set chrome as default browser'
+headline 'Set chrome as default browser'
 if [[ $(ls -la /etc/alternatives/x-www-browser | cut -d " " -f 11) == *"google-chrome-stable"* ]];
 then
         echo 'Google chrome as default browser set'
@@ -147,7 +147,7 @@ fi
 
 dpkg_install "zoom" "https://www.zoom.us/client/latest/zoom_amd64.deb"
 
-echo 'Install fzf'
+headline 'Install fzf'
 if [ -d "$HOMEDIR/.fzf" ];
 then
 	echo 'Fzf installed'
@@ -156,7 +156,7 @@ else
 	~/.fzf/install
 fi
 
-echo 'Install diff-so-fancy'
+headline 'Install diff-so-fancy'
 if [ -f "/usr/local/bin/diff-so-fancy" ];
 then
 	echo 'Diff-so-fancy installed'
@@ -180,17 +180,17 @@ else
 	git config --global color.diff.whitespace "red reverse"
 fi
 
-echo 'Set git config'
+headline 'Set git config'
 git config --global user.name "$GIT_USERNAME"
 git config --global user.email "$GIT_EMAIL"
 
-echo "Add .idea folder to global gitignore"
+headline "Add .idea folder to global gitignore"
 echo "" > ~/.gitignore_global
 echo ".idea/" >> ~/.gitignore_global
 git config --global core.excludesfile ~/.gitignore_global
 
 # create docker group and assign user to group
-echo "Create docker group and assign current user to it"
+headline "Create docker group and assign current user to it"
 if [[ $(cut -d: -f1 /etc/group | grep docker) != "docker" ]]; then
 	sudo groupadd docker
 fi
@@ -202,19 +202,19 @@ if [ -d "$HOMEDIR/.docker" ]; then
 	sudo chmod g+rwx "$HOME/.docker" -R
 fi
 
-echo "Add GPG Keys"
+headline "Add GPG Keys"
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
-echo "add package repositories"
+headline "add package repositories"
 sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    stable"
 
-echo "update package sources"
+headline "update package sources"
 sudo apt-get update
 
-echo 'Creating symlink for config file';
+headline 'Creating symlink for config file';
 ln -f zshrc ~/.zshrc;
 
 echo "https://github.com/denilsonsa/prettyping"
@@ -222,7 +222,7 @@ curl -O https://raw.githubusercontent.com/denilsonsa/prettyping/master/prettypin
 chmod +x prettyping
 sudo mv prettyping /usr/local/bin/
 
-echo 'Install oh-my-zsh'
+headline 'Install oh-my-zsh'
 if [ -d "$HOMEDIR/.oh-my-zsh" ];
 then
         echo 'Zsh installed'
@@ -232,4 +232,8 @@ else
 	mv $HOMEDIR/.zshrc.pre-oh-my-zsh $HOMEDIR/.zshrc
 fi
 
-echo "Done. Don't forget to change terminal font to Sauce Code Pro Regular. Happy bashing!"
+headline 'Install zsh autocompletion'
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+
+headline "Done. Don't forget to change terminal font to Sauce Code Pro Regular. Happy bashing!"
