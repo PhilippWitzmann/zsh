@@ -1,11 +1,11 @@
 # Path to your oh-my-zsh installation.
 # Change this accordingly!
-export ZSH=/Users/philippwitzmann/.oh-my-zsh
+export ZSH=/home/philipp/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-POWERLEVEL9K_MODE='awesome-patched'
+POWERLEVEL9K_MODE='nerdfont-complete'
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
@@ -20,7 +20,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git bower Composer docker jsontools npm perm redis-cli suse taskwarrior zsh-syntax-highlighting)
+plugins=(git  docker jsontools npm redis-cli suse taskwarrior zsh-syntax-highlighting kubectl kube-ps1)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -36,8 +36,9 @@ export EDITOR=vim
 export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 alias cat='bat'
-alias preview="fzf --preview 'bat --color \"always\" {}'"
+alias preview="fzf --preview=\"bat --theme={} --color=always {}\""
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+alias ls="colorls"
 
 # add support for ctrl+o to open selected file in VS Code
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
@@ -50,8 +51,6 @@ composer () {
         --interactive \
         --rm \
         --user $(id -u):$(id -g) \
-        --volume /private/etc/passwd:/etc/passwd:ro \
-        --volume /private/etc/group:/etc/group:ro \
         --volume $(pwd):/app \
         composer "$@"
 }
@@ -65,8 +64,6 @@ phpunit () {
          --interactive \
          --rm \
          --user $(id -u):$(id -g) \
-         --volume /private/etc/passwd:/etc/passwd:ro \
-         --volume /private/etc/group:/etc/group:ro \
          --volume $(pwd):/app \
          phpunit/phpunit "$@"
 }
@@ -80,8 +77,6 @@ phpdoc () {
          --interactive \
          --rm \
          --user $(id -u):$(id -g) \
-         --volume /private/etc/passwd:/etc/passwd:ro \
-         --volume /private/etc/group:/etc/group:ro \
          --volume $(pwd):/app \
          phpdoc/phpdoc "$@"
 }
@@ -106,8 +101,12 @@ POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX=""
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(root_indicator dir vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time)
 POWERLEVEL9K_OS_ICON_BACKGROUND="white"
-POWERLEVEL9K_OS_ICON_FOREGROUND="blue"
+POWERLEVEL9K_OS_ICON_FOREGROUND="white"
 POWERLEVEL9K_DIR_HOME_FOREGROUND="white"
 POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="white"
 POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
+
+# Set prompt to use kube_ps1
+PROMPT=$PROMPT'$(kube_ps1) '
