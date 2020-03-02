@@ -107,6 +107,7 @@ apt_install "gnupg-agent"
 apt_install "software-properties-common"
 apt_install "ruby-dev"
 apt_install "bat"
+apt_install "mysql-workbench"
 
 snap_install "spotify"
 snap_install "phpstorm"
@@ -127,6 +128,10 @@ wget https://raw.githubusercontent.com/ahmetb/kubectx/master/completion/kubens.z
 
 dpkg_install "bat" "https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb"
 dpkg_install "google-chrome-stable" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt-get update
+apt_install "sublime-text"
 
 gem_install colorls
 
