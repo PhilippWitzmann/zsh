@@ -99,6 +99,7 @@ apt_install "zsh"
 apt_install "python3-dev"
 apt_install "python3-pip"
 apt_install "python3-setuptools"
+apt_install "net-tools"
 
 # docker
 apt_install "apt-transport-https"
@@ -108,12 +109,18 @@ apt_install "software-properties-common"
 apt_install "ruby-dev"
 apt_install "bat"
 apt_install "mysql-workbench"
+apt_install "openvpn"
+apt_install "easy-rsa"
 
 snap_install "spotify"
 snap_install "phpstorm"
+snap_install "intellij-idea-community"
 snap_install "hiri"
 snap_install "rambox"
 snap_install "kubectl"
+snap_install "postman"
+snap_install "barrier"
+
 
 mkdir -p ~/.oh-my-zsh/completions
 chmod -R 755 ~/.oh-my-zsh/completions
@@ -225,6 +232,12 @@ curl -O https://raw.githubusercontent.com/denilsonsa/prettyping/master/prettypin
 chmod +x prettyping
 sudo mv prettyping /usr/local/bin/
 
+headline 'Install helm'
+curl -LO https://git.io/get_helm.sh
+chmod 700 get_helm.sh
+./get_helm.sh
+rm get_helm.sh
+
 headline 'Install oh-my-zsh'
 if [ -d "$HOMEDIR/.oh-my-zsh" ]; then
   echo 'Zsh installed'
@@ -233,6 +246,9 @@ else
   mv $HOMEDIR/.zshrc $HOMEDIR/.zshrc.default
   mv $HOMEDIR/.zshrc.pre-oh-my-zsh $HOMEDIR/.zshrc
 fi
+
+sudo wget https://github.com/bcicen/ctop/releases/download/v0.7.3/ctop-0.7.3-linux-amd64 -O /usr/local/bin/ctop
+sudo chmod +x /usr/local/bin/ctop
 
 headline 'Install zsh autocompletion'
 if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]; then
