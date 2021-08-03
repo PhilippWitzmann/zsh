@@ -108,5 +108,10 @@ POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
 
+export KUBECONFIG="$(find ~/.kube/configs/ -type f -exec printf '%s:' '{}' +)"
+
+
 # Set prompt to use kube_ps1
 PROMPT=$PROMPT'$(kube_ps1) '
+source /home/philipp/.oh-my-zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/autojump/autojump.zsh
