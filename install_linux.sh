@@ -108,37 +108,32 @@ apt_install "gnupg-agent"
 apt_install "software-properties-common"
 apt_install "ruby-dev"
 apt_install "bat"
-apt_install "mysql-workbench"
-apt_install "openvpn"
 apt_install "easy-rsa"
+apt_install "autojump"
 
 snap_install "spotify"
 snap_install "phpstorm"
-snap_install "intellij-idea-community"
-snap_install "hiri"
 snap_install "rambox"
 snap_install "kubectl"
-snap_install "postman"
 snap_install "barrier"
 
 
+headline "Install zsh-completions"
 mkdir -p ~/.oh-my-zsh/completions
 chmod -R 755 ~/.oh-my-zsh/completions
 
+headline "Install kubectx"
 sudo wget https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx -O /usr/local/bin/kubectx
 sudo chmod +x /usr/local/bin/kubectx
 wget https://raw.githubusercontent.com/ahmetb/kubectx/master/completion/kubectx.zsh -O ~/.oh-my-zsh/completions/_kubectx.zsh
 
+headline "Install kubens"
 sudo wget https://raw.githubusercontent.com/ahmetb/kubectx/master/kubens -O /usr/local/bin/kubens
 sudo chmod +x /usr/local/bin/kubens
 wget https://raw.githubusercontent.com/ahmetb/kubectx/master/completion/kubens.zsh -O ~/.oh-my-zsh/completions/_kubens.zsh
 
 dpkg_install "bat" "https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb"
 dpkg_install "google-chrome-stable" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-
-echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-sudo apt-get update
-apt_install "sublime-text"
 
 gem_install colorls
 
@@ -193,23 +188,12 @@ echo ".idea/" >>~/.gitignore_global
 git config --global core.excludesfile ~/.gitignore_global
 
 headline "Install Docker"
-
-subheadline "Add GPG Keys"
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-
-subheadline "add package repositories"
-sudo add-apt-repository \
-  "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
-
-subheadline "update package sources"
-sudo apt-get update
-
-apt_install "docker-ce"
-apt_install "docker-ce-cli"
-apt_install "containerd.io"
-apt_install "docker-compose"
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh ./get-docker.sh
+rm ./get-docker.sh
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
 
 # create docker group and assign user to group
 subheadline "Create docker group and assign current user to it"
