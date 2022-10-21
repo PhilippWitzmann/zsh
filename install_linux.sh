@@ -253,7 +253,7 @@ headline 'Install zsh git open'
 if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/git-open ]; then
   echo "git open already installed"
 else
-  git clone https://github.com/paulirish/git-open.git $ZSH_CUSTOM/plugins/git-open
+  git clone https://github.com/paulirish/git-open.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/git-open
 fi
 
 headline 'Cleanup'
