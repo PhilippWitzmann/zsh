@@ -225,6 +225,13 @@ else
   sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
+headline 'Install powerlevel10k theme'
+if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k ]; then
+  echo "powerlevel10k already installed"
+else
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+fi
+
 headline 'Creating symlink for config file'
 ln -f zshrc ~/.zshrc
 
@@ -240,6 +247,13 @@ if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]; th
   echo "zsh-syntax-highlighting already installed"
 else
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+fi
+
+headline 'Install zsh git open'
+if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/git-open ]; then
+  echo "git open already installed"
+else
+  git clone https://github.com/paulirish/git-open.git $ZSH_CUSTOM/plugins/git-open
 fi
 
 headline 'Cleanup'
