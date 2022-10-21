@@ -38,12 +38,12 @@ subheadline() {
 apt_install() {
   local PACKAGE_NAME=$1
 
-  headline "Install $PACKAGE_NAME"
-#  if [[ $(apt list |  grep -E "^($PACKAGE_NAME)\/.+") == *"$PACKAGE_NAME" ]]; then
+ headline "Install $PACKAGE_NAME"
+ if [[ $(apt list |  grep -E "^($PACKAGE_NAME)\/.+") == *"$PACKAGE_NAME" ]]; then
     sudo apt install -y $PACKAGE_NAME
-#  else
-#    echo "$PACKAGE_NAME installed"
-#  fi
+ else
+   echo "$PACKAGE_NAME installed"
+ fi
 }
 
 snap_install() {
@@ -89,8 +89,6 @@ gem_install() {
   fi
 }
 
-# Installation Script for zsh config
-
 apt_install "git"
 apt_install "vim"
 apt_install "htop"
@@ -116,10 +114,6 @@ snap_install "rambox"
 snap_install "kubectl"
 
 
-headline "Install zsh-completions"
-mkdir -p ~/.oh-my-zsh/completions
-chmod -R 755 ~/.oh-my-zsh/completions
-
 headline "Install krew"
 (
   set -x; cd "$(mktemp -d)" &&
@@ -133,11 +127,9 @@ headline "Install krew"
 
 headline "Install kubectx"
 kubectl krew install ctx
-wget https://raw.githubusercontent.com/ahmetb/kubectx/master/completion/kubectx.zsh -O ~/.oh-my-zsh/completions/_kubectx.zsh
 
 headline "Install kubens"
 kubectl krew install ns
-wget https://raw.githubusercontent.com/ahmetb/kubectx/master/completion/kubens.zsh -O ~/.oh-my-zsh/completions/_kubens.zsh
 
 headline "Install kubectl konfig"
 kubectl krew install konfig
@@ -155,8 +147,6 @@ if [[ $(ls -la /etc/alternatives/x-www-browser | cut -d " " -f 11) == *"google-c
 else
   sudo update-alternatives --config x-www-browser
 fi
-
-# dpkg_install "zoom" "https://www.zoom.us/client/latest/zoom_amd64.deb"
 
 headline 'Install fzf'
 if [ -d "$HOMEDIR/.fzf" ]; then
@@ -195,9 +185,6 @@ git config --global user.email "$GIT_EMAIL"
 headline "Set globalignore file"
 echo "" >~/.gitignore_global
 git config --global core.excludesfile ~/.gitignore_global
-
-# headline "Add .idea folder to global gitignore"
-# echo ".idea/" >>~/.gitignore_global
 
 headline "Install Docker"
 curl -fsSL https://get.docker.com -o get-docker.sh
