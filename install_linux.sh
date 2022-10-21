@@ -122,15 +122,28 @@ headline "Install zsh-completions"
 mkdir -p ~/.oh-my-zsh/completions
 chmod -R 755 ~/.oh-my-zsh/completions
 
+
+headline "Install krew"
+(
+  set -x; cd "$(mktemp -d)" &&
+  OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+  ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.tar.gz" &&
+  tar zxvf krew.tar.gz &&
+  KREW=./krew-"${OS}_${ARCH}" &&
+  "$KREW" install krew
+)
+
 headline "Install kubectx"
-sudo wget https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx -O /usr/local/bin/kubectx
-sudo chmod +x /usr/local/bin/kubectx
+kubectl krew install ctx
 wget https://raw.githubusercontent.com/ahmetb/kubectx/master/completion/kubectx.zsh -O ~/.oh-my-zsh/completions/_kubectx.zsh
 
 headline "Install kubens"
-sudo wget https://raw.githubusercontent.com/ahmetb/kubectx/master/kubens -O /usr/local/bin/kubens
-sudo chmod +x /usr/local/bin/kubens
+kubectl krew install ns
 wget https://raw.githubusercontent.com/ahmetb/kubectx/master/completion/kubens.zsh -O ~/.oh-my-zsh/completions/_kubens.zsh
+
+headline "Install kubectl konfig"
+kubectl krew install konfig
 
 dpkg_install "bat" "https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb"
 dpkg_install "google-chrome-stable" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"

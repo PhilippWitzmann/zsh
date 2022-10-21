@@ -20,7 +20,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git  docker jsontools npm redis-cli suse taskwarrior zsh-syntax-highlighting kubectl kube-ps1 zsh-autosuggestions)
+plugins=(git  docker zsh-syntax-highlighting kubectl kube-ps1 zsh-autosuggestions git-open)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -35,51 +35,12 @@ export EDITOR=vim
 # ssh
 export SSH_KEY_PATH="~/.ssh/rsa_id"
 
-alias cat='bat'
 alias preview="fzf --preview=\"bat --theme={} --color=always {}\""
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias ls="colorls"
 
 # add support for ctrl+o to open selected file in VS Code
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
-
-composer () {
-    tty=
-    tty -s && tty=--tty
-    docker run \
-        $tty \
-        --interactive \
-        --rm \
-        --user $(id -u):$(id -g) \
-        --volume $(pwd):/app \
-        composer "$@"
-}
-
-phpunit () {
-     export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
-     tty=
-     tty -s && tty=--tty
-     docker run \
-         $tty \
-         --interactive \
-         --rm \
-         --user $(id -u):$(id -g) \
-         --volume $(pwd):/app \
-         phpunit/phpunit "$@"
-}
-
-phpdoc () {
-     export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
-     tty=
-     tty -s && tty=--tty
-     docker run \
-         $tty \
-         --interactive \
-         --rm \
-         --user $(id -u):$(id -g) \
-         --volume $(pwd):/app \
-         phpdoc/phpdoc "$@"
-}
 
 ## POWERLEVEL9K SETTINGS ##
 POWERLEVEL9K_VCS_STAGED_ICON='\u00b1'
@@ -108,8 +69,7 @@ POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
 
-export KUBECONFIG="$(find ~/.kube/configs/ -type f -exec printf '%s:' '{}' +)"
-
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Set prompt to use kube_ps1
 PROMPT=$PROMPT'$(kube_ps1) '
