@@ -20,7 +20,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git  docker zsh-syntax-highlighting kubectl kube-ps1 zsh-autosuggestions git-open)
+plugins=(git docker zsh-syntax-highlighting kubectl kube-ps1 zsh-autosuggestions git-open)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -74,10 +74,10 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
 
 # Set prompt to use kube_ps1
 PROMPT=$PROMPT'$(kube_ps1) '
-source /home/philipp/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 [[ -s /home/philipp/.autojump/etc/profile.d/autojump.sh ]] && source /home/philipp/.autojump/etc/profile.d/autojump.sh
-autoload -U compinit && compinit -u
+autoload -Uz compinit && compinit -u
+autoload -Uz compdef
 
 fpath=( ~/.zfunc "${fpath[@]}" )
 autoload -Uz gpa
