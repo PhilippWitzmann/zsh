@@ -219,11 +219,14 @@ chmod 700 get_helm.sh
 rm get_helm.sh
 
 headline 'Install oh-my-zsh'
-# if [ -d "$HOMEDIR/.oh-my-zsh" ]; then
-#   echo 'Zsh installed'
-# else
+if [ -d "$HOMEDIR/.oh-my-zsh" ]; then
+  echo 'Zsh installed'
+else
   sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-# fi
+fi
+
+headline 'Creating symlink for config file'
+ln -f zshrc ~/.zshrc
 
 headline 'Install zsh autocompletion'
 if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]; then
