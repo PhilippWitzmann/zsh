@@ -112,16 +112,13 @@ apt_install "easy-rsa"
 apt_install "autojump"
 
 snap_install "spotify"
-snap_install "phpstorm"
 snap_install "rambox"
 snap_install "kubectl"
-snap_install "barrier"
 
 
 headline "Install zsh-completions"
 mkdir -p ~/.oh-my-zsh/completions
 chmod -R 755 ~/.oh-my-zsh/completions
-
 
 headline "Install krew"
 (
@@ -159,7 +156,7 @@ else
   sudo update-alternatives --config x-www-browser
 fi
 
-dpkg_install "zoom" "https://www.zoom.us/client/latest/zoom_amd64.deb"
+# dpkg_install "zoom" "https://www.zoom.us/client/latest/zoom_amd64.deb"
 
 headline 'Install fzf'
 if [ -d "$HOMEDIR/.fzf" ]; then
@@ -195,17 +192,17 @@ headline 'Set git config'
 git config --global user.name "$GIT_USERNAME"
 git config --global user.email "$GIT_EMAIL"
 
-headline "Add .idea folder to global gitignore"
+headline "Set globalignore file"
 echo "" >~/.gitignore_global
-echo ".idea/" >>~/.gitignore_global
 git config --global core.excludesfile ~/.gitignore_global
+
+# headline "Add .idea folder to global gitignore"
+# echo ".idea/" >>~/.gitignore_global
 
 headline "Install Docker"
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh ./get-docker.sh
 rm ./get-docker.sh
-sudo groupadd docker
-sudo usermod -aG docker $USER
 newgrp docker
 
 # create docker group and assign user to group
@@ -243,9 +240,6 @@ else
   mv $HOMEDIR/.zshrc $HOMEDIR/.zshrc.default
   mv $HOMEDIR/.zshrc.pre-oh-my-zsh $HOMEDIR/.zshrc
 fi
-
-sudo wget https://github.com/bcicen/ctop/releases/download/v0.7.3/ctop-0.7.3-linux-amd64 -O /usr/local/bin/ctop
-sudo chmod +x /usr/local/bin/ctop
 
 headline 'Install zsh autocompletion'
 if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]; then
