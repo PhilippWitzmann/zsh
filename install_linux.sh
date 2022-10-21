@@ -203,7 +203,6 @@ headline "Install Docker"
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh ./get-docker.sh
 rm ./get-docker.sh
-newgrp docker
 
 # create docker group and assign user to group
 subheadline "Create docker group and assign current user to it"
@@ -247,5 +246,8 @@ if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]; then
 else
   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
+
+headline 'Cleanup'
+sudo apt autoremove
 
 headline "Done. Don't forget to change terminal font to Sauce Code Pro Regular. Happy bashing!"

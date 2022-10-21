@@ -37,7 +37,6 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 alias preview="fzf --preview=\"bat --theme={} --color=always {}\""
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
-alias ls="colorls"
 
 # add support for ctrl+o to open selected file in VS Code
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
@@ -71,7 +70,14 @@ if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
+
 # Set prompt to use kube_ps1
 PROMPT=$PROMPT'$(kube_ps1) '
-source /home/philipp/.oh-my-zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/autojump/autojump.zsh
+source /home/philipp/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+[[ -s /home/philipp/.autojump/etc/profile.d/autojump.sh ]] && source /home/philipp/.autojump/etc/profile.d/autojump.sh
+autoload -U compinit && compinit -u
+
+fpath=( ~/.zfunc "${fpath[@]}" )
+autoload -Uz gpa
