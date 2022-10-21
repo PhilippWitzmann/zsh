@@ -235,9 +235,7 @@ headline 'Install oh-my-zsh'
 if [ -d "$HOMEDIR/.oh-my-zsh" ]; then
   echo 'Zsh installed'
 else
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-  mv $HOMEDIR/.zshrc $HOMEDIR/.zshrc.default
-  mv $HOMEDIR/.zshrc.pre-oh-my-zsh $HOMEDIR/.zshrc
+  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
 headline 'Install zsh autocompletion'
