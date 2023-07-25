@@ -119,6 +119,8 @@ headline "Install krew"
     curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
     tar zxvf "${KREW}.tar.gz" &&
     ./"${KREW}" install krew
+    export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
 )
 
 KREW_TOOLS=(ctx ns resource-capacity)
@@ -200,11 +202,7 @@ chmod 700 get_helm.sh
 rm get_helm.sh
 
 headline 'Install oh-my-zsh'
-if [ -d "$HOMEDIR/.oh-my-zsh" ]; then
-  echo 'Zsh installed'
-else
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-fi
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 headline 'Install powerlevel10k theme'
 if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k ]; then
@@ -243,6 +241,13 @@ if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search ]; the
 else
   git clone https://github.com/joshskidmore/zsh-fzf-history-search ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
 fi
+
+headline 'Install homebrew'
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+headline 'Install pre-commit'
+brew install pre-commit
+
 
 headline 'Cleanup'
 sudo apt autoremove

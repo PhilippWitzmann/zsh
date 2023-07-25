@@ -80,8 +80,6 @@ autoload -Uz compinit && compinit -u
 autoload -Uz compdef
 
 fpath=( ~/.zfunc "${fpath[@]}" )
-autoload -Uz gpaexport PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
 
 j() {
     local preview_cmd="ls {2..}"
