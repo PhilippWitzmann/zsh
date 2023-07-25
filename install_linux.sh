@@ -38,12 +38,8 @@ subheadline() {
 apt_install() {
   local PACKAGE_NAME=$1
 
- headline "Install $PACKAGE_NAME"
- if [[ $(apt list |  grep -E "^($PACKAGE_NAME)\/.+") == *"$PACKAGE_NAME" ]]; then
-    sudo apt install -y $PACKAGE_NAME
- else
-   echo "$PACKAGE_NAME installed"
- fi
+  headline "Install $PACKAGE_NAME"
+  sudo apt install -y $PACKAGE_NAME
 }
 
 snap_install() {
@@ -111,22 +107,23 @@ apt_install "autojump"
 
 snap_install "spotify"
 snap_install "kubectl"
+snap_install "code"
 
 headline "Install krew"
 (
-  set -x; cd "$(mktemp -d)" &&
-  OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
-  ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
-  KREW="krew-${OS}_${ARCH}" &&
-  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
-  tar zxvf "${KREW}.tar.gz" &&
-  ./"${KREW}" install krew
+  set -x
+  cd "$(mktemp -d)" &&
+    OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+    ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+    KREW="krew-${OS}_${ARCH}" &&
+    curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+    tar zxvf "${KREW}.tar.gz" &&
+    ./"${KREW}" install krew
 )
 
 KREW_TOOLS=(ctx ns resource-capacity)
 
-for value in "${KREW_TOOLS[@]}"
-do
+for value in "${KREW_TOOLS[@]}"; do
   headline "Install ${value}"
   kubectl krew install ${value}
 done
@@ -246,7 +243,6 @@ if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search ]; the
 else
   git clone https://github.com/joshskidmore/zsh-fzf-history-search ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
 fi
-
 
 headline 'Cleanup'
 sudo apt autoremove
