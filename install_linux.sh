@@ -247,6 +247,10 @@ fi
 
 headline 'Install homebrew'
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/philipp/.profile
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+sudo apt install build-essential
+brew install gcc
 
 headline 'Install pre-commit'
 brew install pre-commit
