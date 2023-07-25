@@ -202,6 +202,9 @@ chmod 700 get_helm.sh
 rm get_helm.sh
 
 headline 'Install oh-my-zsh'
+if [ -d "$HOMEDIR/.oh-my-zsh" ]; then
+  rm -rf $HOMEDIR/.oh-my-zsh
+fi
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 headline 'Install powerlevel10k theme'
