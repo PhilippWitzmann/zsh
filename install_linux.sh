@@ -142,28 +142,6 @@ else
   sudo update-alternatives --config x-www-browser
 fi
 
-headline 'Install diff-so-fancy'
-if [ -f "/usr/local/bin/diff-so-fancy" ]; then
-  echo 'Diff-so-fancy installed'
-else
-  sudo wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -O /usr/local/bin/diff-so-fancy
-  sudo chmod +x /usr/local/bin/diff-so-fancy
-  sudo chown philipp:philipp /usr/local/bin/diff-so-fancy
-
-  git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
-  git config --global color.ui true
-  git config --global color.diff-highlight.oldNormal "red bold"
-  git config --global color.diff-highlight.oldHighlight "red bold 52"
-  git config --global color.diff-highlight.newNormal "green bold"
-  git config --global color.diff-highlight.newHighlight "green bold 22"
-  git config --global color.diff.meta "yellow"
-  git config --global color.diff.frag "magenta bold"
-  git config --global color.diff.commit "yellow bold"
-  git config --global color.diff.old "red bold"
-  git config --global color.diff.new "green bold"
-  git config --global color.diff.whitespace "red reverse"
-fi
-
 headline 'Set git config'
 git config --global user.name "$GIT_USERNAME"
 git config --global user.email "$GIT_EMAIL"
@@ -247,14 +225,31 @@ fi
 
 headline 'Install homebrew'
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/philipp/.profile
+(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/philipp/.zprofile
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 sudo apt install build-essential
 brew install gcc
 
 headline 'Install pre-commit'
 brew install pre-commit
+brew install rbenv ruby-build
+brew cleanup ruby-build
 
+headline 'Install diff-so-fancy'
+brew install diff-so-fancy
+
+git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
+git config --global color.ui true
+git config --global color.diff-highlight.oldNormal "red bold"
+git config --global color.diff-highlight.oldHighlight "red bold 52"
+git config --global color.diff-highlight.newNormal "green bold"
+git config --global color.diff-highlight.newHighlight "green bold 22"
+git config --global color.diff.meta "yellow"
+git config --global color.diff.frag "magenta bold"
+git config --global color.diff.commit "yellow bold"
+git config --global color.diff.old "red bold"
+git config --global color.diff.new "green bold"
+git config --global color.diff.whitespace "red reverse"
 
 headline 'Cleanup'
 sudo apt autoremove

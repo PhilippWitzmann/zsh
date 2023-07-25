@@ -38,6 +38,7 @@ export SSH_KEY_PATH="~/.ssh/id_ed25519"
 
 alias preview="fzf --preview=\"bat --theme={} --color=always {}\""
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+alias ls="colorls"
 
 # add support for ctrl+o to open selected file in VS Code
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
