@@ -20,14 +20,13 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker zsh-syntax-highlighting kubectl kube-ps1 zsh-autosuggestions git-open autojump)
+plugins=(git docker zsh-syntax-highlighting kubectl kube-ps1 zsh-autosuggestions git-open autojump zsh-fzf-history-search)
 
 source $ZSH/oh-my-zsh.sh
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH="$PATH:~/home/philipp/.local/bin"
 
-eval "$(/home/philipp/.rbenv/bin/rbenv init - zsh)"
 eval $(thefuck --alias)
 
 # User configuration
@@ -80,6 +79,8 @@ autoload -Uz compinit && compinit -u
 autoload -Uz compdef
 
 fpath=( ~/.zfunc "${fpath[@]}" )
+autoload -Uz gpaexport PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
 
 j() {
     local preview_cmd="ls {2..}"
@@ -93,3 +94,14 @@ j() {
         cd $(autojump $@)
     fi
 }
+
+# CTRL-/ to toggle small preview window to see the full command
+# CTRL-Y to copy the command into clipboard using pbcopy
+export FZF_CTRL_R_OPTS="
+  --preview 'echo {}' --preview-window up:3:hidden:wrap
+  --bind 'ctrl-/:toggle-preview'
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'"
+
+source /usr/share/doc/fzf/examples/completion.zsh
