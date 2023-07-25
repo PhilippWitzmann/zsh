@@ -3,7 +3,7 @@
 MYDIR=$(pwd)
 HOMEDIR="/home/$USER"
 GIT_USERNAME="Philipp Witzmann"
-GIT_EMAIL="philipp.witzmann@sh.de"
+GIT_EMAIL="philipp@philippwitzmann.de"
 
 # ----------------------------------
 # Colors
@@ -91,28 +91,26 @@ gem_install() {
 
 apt_install "git"
 apt_install "vim"
-apt_install "htop"
 apt_install "curl"
 apt_install "zsh"
 apt_install "python3-dev"
 apt_install "python3-pip"
 apt_install "python3-setuptools"
 apt_install "net-tools"
+apt_install "fzf"
+apt_install "ncdu"
+apt_install "bat"
 
-# docker
 apt_install "apt-transport-https"
 apt_install "ca-certificates"
 apt_install "gnupg-agent"
 apt_install "software-properties-common"
 apt_install "ruby-dev"
-apt_install "bat"
 apt_install "easy-rsa"
 apt_install "autojump"
 
 snap_install "spotify"
-snap_install "rambox"
 snap_install "kubectl"
-
 
 headline "Install krew"
 (
@@ -125,20 +123,17 @@ headline "Install krew"
   ./"${KREW}" install krew
 )
 
-headline "Install kubectx"
-kubectl krew install ctx
+KREW_TOOLS=(ctx ns resource-capacity)
 
-headline "Install kubens"
-kubectl krew install ns
+for value in "${KREW_TOOLS[@]}"
+do
+  headline "Install ${value}"
+  kubectl krew install ${value}
+done
 
-headline "Install kubectl konfig"
-kubectl krew install konfig
-
-dpkg_install "bat" "https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb"
 dpkg_install "google-chrome-stable" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 
 gem_install colorls
-
 pip3_install thefuck
 
 headline 'Set chrome as default browser'
@@ -146,14 +141,6 @@ if [[ $(ls -la /etc/alternatives/x-www-browser | cut -d " " -f 11) == *"google-c
   echo 'Google chrome as default browser set'
 else
   sudo update-alternatives --config x-www-browser
-fi
-
-headline 'Install fzf'
-if [ -d "$HOMEDIR/.fzf" ]; then
-  echo 'Fzf installed'
-else
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install
 fi
 
 headline 'Install diff-so-fancy'
@@ -181,6 +168,8 @@ fi
 headline 'Set git config'
 git config --global user.name "$GIT_USERNAME"
 git config --global user.email "$GIT_EMAIL"
+git config --global push.default current
+git config --global push.autoSetupRemote true
 
 headline "Set globalignore file"
 echo "" >~/.gitignore_global
@@ -206,11 +195,6 @@ fi
 
 headline 'Creating symlink for config file'
 ln -f zshrc ~/.zshrc
-
-echo "https://github.com/denilsonsa/prettyping"
-curl -O https://raw.githubusercontent.com/denilsonsa/prettyping/master/prettyping
-chmod +x prettyping
-sudo mv prettyping /usr/local/bin/
 
 headline 'Install helm'
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
@@ -256,7 +240,15 @@ else
   git clone https://github.com/paulirish/git-open.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/git-open
 fi
 
+headline 'Install zsh fzf history search'
+if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search ]; then
+  echo "zsh-fzf-history-search already installed"
+else
+  git clone https://github.com/joshskidmore/zsh-fzf-history-search ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
+fi
+
+
 headline 'Cleanup'
 sudo apt autoremove
 
-headline "Done. Don't forget to change terminal font to Sauce Code Pro Regular. Happy bashing!"
+headline "Done. Don't forget to change terminal font to MesloLGS. Happy bashing!"

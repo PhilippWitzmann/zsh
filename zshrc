@@ -24,16 +24,18 @@ plugins=(git docker zsh-syntax-highlighting kubectl kube-ps1 zsh-autosuggestions
 
 source $ZSH/oh-my-zsh.sh
 
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export PATH="$PATH:~/home/philipp/.local/bin"
+
+eval "$(/home/philipp/.rbenv/bin/rbenv init - zsh)"
 eval $(thefuck --alias)
 
 # User configuration
 
-export UID
-export GID
 export EDITOR=vim
 
 # ssh
-export SSH_KEY_PATH="~/.ssh/rsa_id"
+export SSH_KEY_PATH="~/.ssh/id_ed25519"
 
 alias preview="fzf --preview=\"bat --theme={} --color=always {}\""
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
@@ -68,8 +70,6 @@ POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
 
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
 
 # Set prompt to use kube_ps1
@@ -80,4 +80,18 @@ autoload -Uz compinit && compinit -u
 autoload -Uz compdef
 
 fpath=( ~/.zfunc "${fpath[@]}" )
-autoload -Uz gpa
+autoload -Uz gpaexport PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+j() {
+    local preview_cmd="ls {2..}"
+    if command -v exa &> /dev/null; then
+        preview_cmd="exa -l {2}"
+    fi
+
+    if [[ $# -eq 0 ]]; then
+                 cd "$(autojump -s | sort -k1gr | awk -F : '$1 ~ /[0-9]/ && $2 ~ /^\s*\// {print $1 $2}' | fzf --height 40% --reverse --inline-info --preview "$preview_cmd" --preview-window down:50% | cut -d$'\t' -f2- | sed 's/^\s*//')"
+    else
+        cd $(autojump $@)
+    fi
+}
