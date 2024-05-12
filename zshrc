@@ -26,6 +26,8 @@ source $ZSH/oh-my-zsh.sh
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH="$PATH:~/home/philipp/.local/bin"
+export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
+export PATH="$PATH:$GEM_HOME/bin"
 
 eval $(thefuck --alias)
 
@@ -113,4 +115,4 @@ export FZF_CTRL_R_OPTS="
   --color header:italic
   --header 'Press CTRL-Y to copy command into clipboard'"
 
-source /usr/share/doc/fzf/examples/completion.zsh
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
