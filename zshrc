@@ -96,6 +96,14 @@ j() {
     fi
 }
 
+gsc () {
+  for i in 1 2; do
+    git add .
+    git commit -m "${1}"
+    git push
+  done;
+}
+
 # CTRL-/ to toggle small preview window to see the full command
 # CTRL-Y to copy the command into clipboard using pbcopy
 export FZF_CTRL_R_OPTS="
