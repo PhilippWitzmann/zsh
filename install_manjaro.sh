@@ -83,11 +83,13 @@ pamac_install "thefuck"
 # Enable AUR sources first
 pamac_install "autojump"
 pamac_install "ruby"
+pamac_install "obsidian"
+pamac_install "syncthing"
 
 snap_install "spotify"
 snap_install "kubectl"
 snap_install "code"
-snap_install docker
+snap_install "docker"
 
 headline "Install krew"
 (
@@ -122,13 +124,12 @@ headline "Set globalignore file"
 echo "" >~/.gitignore_global
 git config --global core.excludesfile ~/.gitignore_global
 
-
 # create docker group and assign user to group
 subheadline "Create docker group and assign current user to it"
 if [[ $(cut -d: -f1 /etc/group | grep docker) != "docker" ]]; then
   sudo groupadd docker
 fi
-if groups $USER | grep -q '\bdocker\b'; then
+if groups $USER | grep -q 'docker'; then
   sudo usermod -aG docker $USER
 fi
 if [ -d "$HOMEDIR/.docker" ]; then
