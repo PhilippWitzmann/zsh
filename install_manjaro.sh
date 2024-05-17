@@ -78,10 +78,11 @@ pamac_install "curl"
 pamac_install "zsh"
 pamac_install "fzf"
 pamac_install "bat"
+pamac_install "jq"
+pamac_install "yq"
 pamac_install "terminator"
 pamac_install "thefuck"
 # Enable AUR sources first
-pamac_install "autojump"
 pamac_install "ruby"
 pamac_install "obsidian"
 pamac_install "syncthing"
@@ -158,6 +159,9 @@ if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k ]; then
 else
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 fi
+
+headline 'Install z'
+curl -o ~/.z.sh https://raw.githubusercontent.com/rupa/z/master/z.sh
 
 headline 'Creating symlink for config file'
 ln -f zshrc ~/.zshrc

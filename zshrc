@@ -20,7 +20,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker zsh-syntax-highlighting kubectl kube-ps1 zsh-autosuggestions git-open autojump zsh-fzf-history-search)
+plugins=(git docker zsh-syntax-highlighting kubectl kube-ps1 zsh-autosuggestions git-open zsh-fzf-history-search)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -71,6 +71,7 @@ POWERLEVEL9K_DIR_HOME_FOREGROUND="white"
 POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="white"
 POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.z.sh ] && . ~/.z.sh
 if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
@@ -78,26 +79,9 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
 # Set prompt to use kube_ps1
 PROMPT=$PROMPT'$(kube_ps1) '
 
-[[ -s /home/philipp/.autojump/etc/profile.d/autojump.sh ]] && source /home/philipp/.autojump/etc/profile.d/autojump.sh
-autoload -Uz compinit && compinit -u
-autoload -Uz compdef
-
 fpath=( ~/.zfunc "${fpath[@]}" )
 autoload -Uz gpaexport PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
-
-j() {
-    local preview_cmd="ls {2..}"
-    if command -v exa &> /dev/null; then
-        preview_cmd="exa -l {2}"
-    fi
-
-    if [[ $# -eq 0 ]]; then
-                 cd "$(autojump -s | sort -k1gr | awk -F : '$1 ~ /[0-9]/ && $2 ~ /^\s*\// {print $1 $2}' | fzf --height 40% --reverse --inline-info --preview "$preview_cmd" --preview-window down:50% | cut -d$'\t' -f2- | sed 's/^\s*//')"
-    else
-        cd $(autojump $@)
-    fi
-}
 
 gsc () {
   for i in 1 2; do
@@ -115,7 +99,5 @@ export FZF_CTRL_R_OPTS="
   --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
   --color header:italic
   --header 'Press CTRL-Y to copy command into clipboard'"
-
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
