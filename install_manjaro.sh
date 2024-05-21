@@ -86,6 +86,8 @@ pamac_install "thefuck"
 pamac_install "ruby"
 pamac_install "obsidian"
 pamac_install "syncthing"
+pamac_install "diff-so-fancy"
+pamac_install "pre-commit"
 
 snap_install "spotify"
 snap_install "kubectl"
@@ -151,7 +153,7 @@ headline 'Install oh-my-zsh'
 if [ -d "$HOMEDIR/.oh-my-zsh" ]; then
   rm -rf $HOMEDIR/.oh-my-zsh
 fi
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 headline 'Install powerlevel10k theme'
 if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k ]; then
@@ -194,29 +196,19 @@ else
   git clone https://github.com/joshskidmore/zsh-fzf-history-search ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
 fi
 
-headline 'Install homebrew'
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/philipp/.zshrc
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-brew install gcc
-
-headline 'Install pre-commit'
-brew install pre-commit
-
-headline 'Install diff-so-fancy'
-brew install diff-so-fancy
-
-git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
+git config --global core.pager "diff-so-fancy | less --tabs=4 -RF"
+git config --global interactive.diffFilter "diff-so-fancy --patch"
 git config --global color.ui true
-git config --global color.diff-highlight.oldNormal "red bold"
+git config --global color.diff-highlight.oldNormal    "red bold"
 git config --global color.diff-highlight.oldHighlight "red bold 52"
-git config --global color.diff-highlight.newNormal "green bold"
+git config --global color.diff-highlight.newNormal    "green bold"
 git config --global color.diff-highlight.newHighlight "green bold 22"
-git config --global color.diff.meta "yellow"
-git config --global color.diff.frag "magenta bold"
-git config --global color.diff.commit "yellow bold"
-git config --global color.diff.old "red bold"
-git config --global color.diff.new "green bold"
+git config --global color.diff.meta       "11"
+git config --global color.diff.frag       "magenta bold"
+git config --global color.diff.func       "146 bold"
+git config --global color.diff.commit     "yellow bold"
+git config --global color.diff.old        "red bold"
+git config --global color.diff.new        "green bold"
 git config --global color.diff.whitespace "red reverse"
 
 headline 'Cleanup'
