@@ -72,6 +72,9 @@ gem_install() {
   fi
 }
 
+# Update databases etc
+sudo pacman -Syu && sudo pacman -Fy
+
 pamac_install "git"
 pamac_install "vim"
 pamac_install "curl"
@@ -88,6 +91,7 @@ pamac_install "obsidian"
 pamac_install "syncthing"
 pamac_install "diff-so-fancy"
 pamac_install "pre-commit"
+pamac_install "bind"
 
 snap_install "spotify"
 snap_install "kubectl"
