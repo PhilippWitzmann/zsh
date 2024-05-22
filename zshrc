@@ -79,8 +79,6 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
 PROMPT=$PROMPT'$(kube_ps1) '
 
 fpath=( ~/.zfunc "${fpath[@]}" )
-autoload -Uz gpaexport PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
 
 gsc () {
   for i in 1 2; do
