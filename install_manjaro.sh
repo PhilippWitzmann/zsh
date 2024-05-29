@@ -92,6 +92,7 @@ pamac_install "syncthing"
 pamac_install "diff-so-fancy"
 pamac_install "pre-commit"
 pamac_install "bind"
+pamac_install "thunderbird"
 
 snap_install "spotify"
 snap_install "kubectl"
