@@ -92,6 +92,7 @@ pamac_install "syncthing"
 pamac_install "diff-so-fancy"
 pamac_install "pre-commit"
 pamac_install "bind"
+pamac_install "thunderbird"
 pamac_install "vscodium-bin"
 
 snap_install "spotify"
