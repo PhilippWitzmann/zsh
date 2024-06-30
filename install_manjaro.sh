@@ -42,15 +42,6 @@ pamac_install() {
   sudo pamac install --no-confirm $PACKAGE_NAME
 }
 
-snap_install() {
-  local PACKAGE_NAME=$1
-  headline "Install $PACKAGE_NAME"
-  if [[ $(snap list | cut -d " " -f 1 | grep $PACKAGE_NAME) == *"$PACKAGE_NAME"* ]]; then
-    echo "$PACKAGE_NAME installed"
-  else
-    sudo snap install $PACKAGE_NAME --classic
-  fi
-}
 
 pip3_install() {
   local PACKAGE_NAME=$1
@@ -74,6 +65,7 @@ gem_install() {
 
 # Update databases etc
 sudo pacman -Syu && sudo pacman -Fy
+sudo pacman -Syu discord
 
 pamac_install "git"
 pamac_install "vim"
@@ -94,11 +86,12 @@ pamac_install "pre-commit"
 pamac_install "bind"
 pamac_install "thunderbird"
 pamac_install "vscodium-bin"
+pamac_install "kubectl"
+pamac_install "talosctl"
+pamac_install "nfs-utils"
+pamac_install "xdg-desktop-portal-gtk"
 
-snap_install "spotify"
-snap_install "kubectl"
-snap_install "docker"
-snap_install "rambox"
+flatpak install spotify
 
 headline "Install krew"
 (
