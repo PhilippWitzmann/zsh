@@ -98,6 +98,7 @@ pamac_install "vscodium-bin"
 snap_install "spotify"
 snap_install "kubectl"
 snap_install "docker"
+snap_install "rambox"
 
 headline "Install krew"
 (
@@ -142,8 +143,6 @@ git config --global color.diff.old        "red bold"
 git config --global color.diff.new        "green bold"
 git config --global color.diff.whitespace "red reverse"
 git config --global pull.rebase false
-
-
 
 # create docker group and assign user to group
 subheadline "Create docker group and assign current user to it"
