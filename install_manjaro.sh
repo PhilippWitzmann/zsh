@@ -206,6 +206,12 @@ else
   git clone https://github.com/joshskidmore/zsh-fzf-history-search ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
 fi
 
+headline 'Steam stuff'
+sudo pacman -Syu && \
+sudo pacman -S steam linux-steam-integration steam-native-runtime wine winetricks wine-mono wine-gecko vulkan-icd-loader vulkan-headers lib32-vulkan-icd-loader vulkan-tools
+sudo pacman -S gamemode lib32-gamemode mangohud lib32-mangohud && \
+sudo pamac build vkbasalt lib32-vkbasalt goverlay-bin protonup-qt
+
 headline 'Cleanup'
 
 headline "Done. Don't forget to change terminal font to MesloLGS. Happy bashing!"
