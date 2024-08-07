@@ -74,7 +74,6 @@ pamac_install "zsh"
 pamac_install "fzf"
 pamac_install "bat"
 pamac_install "jq"
-pamac_install "yq"
 pamac_install "terminator"
 pamac_install "thefuck"
 # Enable AUR sources first
@@ -113,6 +112,10 @@ for value in "${KREW_TOOLS[@]}"; do
   headline "Install ${value}"
   kubectl krew install ${value}
 done
+
+headline "Install yq"
+sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
+sudo chmod +x /usr/bin/yq
 
 gem_install colorls
 

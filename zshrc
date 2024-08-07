@@ -71,6 +71,7 @@ POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="white"
 POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.z.sh ] && . ~/.z.sh
+[ -f ~/_istioctl ] && source ~/_istioctl
 if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
