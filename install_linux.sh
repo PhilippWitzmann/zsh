@@ -42,16 +42,6 @@ apt_install() {
   sudo apt install -y $PACKAGE_NAME
 }
 
-snap_install() {
-  local PACKAGE_NAME=$1
-  headline "Install $PACKAGE_NAME"
-  if [[ $(snap list | cut -d " " -f 1 | grep $PACKAGE_NAME) == *"$PACKAGE_NAME"* ]]; then
-    echo "$PACKAGE_NAME installed"
-  else
-    sudo snap install $PACKAGE_NAME --classic
-  fi
-}
-
 pip3_install() {
   local PACKAGE_NAME=$1
   headline "Install $PACKAGE_NAME"
@@ -89,25 +79,14 @@ apt_install "git"
 apt_install "vim"
 apt_install "curl"
 apt_install "zsh"
-apt_install "python3-dev"
-apt_install "python3-pip"
-apt_install "python3-setuptools"
-apt_install "net-tools"
 apt_install "fzf"
-apt_install "ncdu"
 apt_install "bat"
-
-apt_install "apt-transport-https"
-apt_install "ca-certificates"
-apt_install "gnupg-agent"
-apt_install "software-properties-common"
-apt_install "ruby-dev"
-apt_install "easy-rsa"
-apt_install "autojump"
-
-snap_install "spotify"
-snap_install "kubectl"
-snap_install "code"
+apt_install "jq"
+apt_install "thefuck"
+apt_install "ruby"
+apt_install "diff-so-fancy"
+apt_install "pre-commit"
+apt_install "bind"
 
 headline "Install krew"
 (
@@ -129,18 +108,6 @@ for value in "${KREW_TOOLS[@]}"; do
   headline "Install ${value}"
   kubectl krew install ${value}
 done
-
-dpkg_install "google-chrome-stable" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-
-gem_install colorls
-pip3_install thefuck
-
-headline 'Set chrome as default browser'
-if [[ $(ls -la /etc/alternatives/x-www-browser | cut -d " " -f 11) == *"google-chrome-stable"* ]]; then
-  echo 'Google chrome as default browser set'
-else
-  sudo update-alternatives --config x-www-browser
-fi
 
 headline 'Set git config'
 git config --global user.name "$GIT_USERNAME"
@@ -223,20 +190,6 @@ else
   git clone https://github.com/joshskidmore/zsh-fzf-history-search ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
 fi
 
-headline 'Install homebrew'
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/philipp/.zprofile
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-sudo apt install build-essential
-brew install gcc
-
-headline 'Install pre-commit'
-brew install pre-commit
-brew install rbenv ruby-build
-brew cleanup ruby-build
-
-headline 'Install diff-so-fancy'
-brew install diff-so-fancy
 
 git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
 git config --global color.ui true
