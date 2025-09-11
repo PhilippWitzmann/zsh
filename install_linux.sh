@@ -75,8 +75,10 @@ gem_install() {
   fi
 }
 
+headline "Adding diff so fancy apt repo"
 sudo add-apt-repository ppa:aos1/diff-so-fancy -y
 
+headline "Adding kubernetes repo"
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --batch --yes --dearmour -o /usr/share/keyrings/kubernetes.gpg
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/kubernetes.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
 
@@ -100,12 +102,14 @@ apt_install "pre-commit"
 apt_install "bind9"
 apt_install "apt-transport-https"
 
-healine "Install kubectl"
+headline "Install kubectl"
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
 echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 kubectl version --client
+autoload -Uz compinit
+compinit
 source <(kubectl completion zsh)
 
 headline "Install krew"

@@ -31,7 +31,6 @@ plugins=(
   kube-ps1 
   thefuck 
   zsh-syntax-highlighting 
-  kubectl 
   git-open 
   zsh-fzf-history-search
   zsh-autosuggestions
@@ -96,6 +95,12 @@ gsc () {
     git commit -m "${1}"
     git push
   done;
+}
+
+gsa () {
+  git add .
+  git commit --am
+  git push -f
 }
 
 # CTRL-/ to toggle small preview window to see the full command
