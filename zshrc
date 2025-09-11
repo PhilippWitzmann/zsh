@@ -16,11 +16,26 @@ COMPLETION_WAITING_DOTS="true"
 # much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
+# initialize autocompletion
+autoload -U compinit && compinit
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker zsh-syntax-highlighting kubectl kube-ps1 zsh-autosuggestions git-open zsh-fzf-history-search)
+plugins=(
+  autojump
+  git
+  docker 
+  kubectl 
+  kube-ps1 
+  thefuck 
+  zsh-syntax-highlighting 
+  kubectl 
+  git-open 
+  zsh-fzf-history-search
+  zsh-autosuggestions
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -30,8 +45,6 @@ export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
 export PATH="$PATH:$GEM_HOME/bin"
 
 eval $(thefuck --alias)
-
-# User configuration
 
 export EDITOR=vim
 
@@ -43,6 +56,7 @@ alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 
 # add support for ctrl+o to open selected file in VS Code
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
+
 
 ## POWERLEVEL9K SETTINGS ##
 POWERLEVEL9K_VCS_STAGED_ICON='\u00b1'
@@ -61,24 +75,20 @@ POWERLEVEL9K_STATUS_VERBOSE=false
 POWERLEVEL9K_STATUS_OK_IN_NON_VERBOSE=true
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX=""
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(root_indicator dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(root_indicator dir vcs kube_ps1)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time kube_ps1)
 POWERLEVEL9K_OS_ICON_BACKGROUND="white"
 POWERLEVEL9K_OS_ICON_FOREGROUND="white"
 POWERLEVEL9K_DIR_HOME_FOREGROUND="white"
 POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="white"
 POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 [ -f ~/.z.sh ] && . ~/.z.sh
 [ -f ~/_istioctl ] && source ~/_istioctl
-if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh)
+if [ /usr/bin/fzf ]; then source <(fzf --zsh) ; fi
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
-
-# Set prompt to use kube_ps1
-PROMPT=$PROMPT'$(kube_ps1) '
-
-fpath=( ~/.zfunc "${fpath[@]}" )
 
 gsc () {
   for i in 1 2; do

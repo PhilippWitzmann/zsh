@@ -75,18 +75,38 @@ gem_install() {
   fi
 }
 
+sudo add-apt-repository ppa:aos1/diff-so-fancy -y
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --batch --yes --dearmour -o /usr/share/keyrings/kubernetes.gpg
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/kubernetes.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+
+headline "Update"
+sudo apt update
+
+headline "Upgrade"
+sudo apt upgrade
+
 apt_install "git"
 apt_install "vim"
 apt_install "curl"
 apt_install "zsh"
 apt_install "fzf"
 apt_install "bat"
+sudo ln -s /usr/bin/batcat /usr/local/bin/bat
 apt_install "jq"
-apt_install "thefuck"
 apt_install "ruby"
 apt_install "diff-so-fancy"
 apt_install "pre-commit"
-apt_install "bind"
+apt_install "bind9"
+apt_install "apt-transport-https"
+
+healine "Install kubectl"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client
+source <(kubectl completion zsh)
 
 headline "Install krew"
 (
@@ -99,7 +119,6 @@ headline "Install krew"
     tar zxvf "${KREW}.tar.gz" &&
     ./"${KREW}" install krew
     export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
 )
 
 KREW_TOOLS=(ctx ns resource-capacity)
@@ -167,6 +186,7 @@ if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]; then
   echo "autocompletion already installed"
 else
   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
 fi
 
 headline 'Install zsh syntax highlighting'
